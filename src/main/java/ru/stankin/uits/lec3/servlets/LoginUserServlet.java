@@ -17,9 +17,17 @@ public class LoginUserServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        User admin = new User("admin", "admin");
+        User[] usersArray = new User[5];
+        usersArray[0] = new User("admin", "admin");
+        usersArray[1] = new User("user", "1");
+        usersArray[2] = new User("java", "kotlin");
+        usersArray[3] = new User("stankin", "uits");
+        usersArray[4] = new User("servlet", "c#");
 
-        UserTable.addUser(admin);
+
+        for (User user : usersArray) {
+            UserTable.addUser(user);
+        }
     }
 
     @Override
@@ -35,12 +43,9 @@ public class LoginUserServlet extends HttpServlet {
 
         boolean isLogPassValid = UserTable.checkPass(login, password);
 
-        if (isLogPassValid) {
-            routing(req, resp, login);
-        } else {
-            req.setAttribute("isLogPassValid", isLogPassValid);
-            req.getRequestDispatcher("views/login-user.jsp").forward(req, resp);
-        }
+        req.setAttribute("isLogPassValid", isLogPassValid);
+        req.getRequestDispatcher("views/login-user.jsp").forward(req, resp);
+
     }
 
     private static void routing(HttpServletRequest req, HttpServletResponse resp, String login) throws ServletException, IOException {
